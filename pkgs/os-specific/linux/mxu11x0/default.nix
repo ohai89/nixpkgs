@@ -3,10 +3,11 @@
   stdenv,
   fetchurl,
   kernel,
+  self,
 }:
 
 let
-  srcs = import ./srcs.nix { inherit fetchurl; };
+  srcs = import "${builtins.dirOf self}/srcs.nix" { inherit fetchurl; };
 in
 stdenv.mkDerivation rec {
   pname = "mxu11x0";
