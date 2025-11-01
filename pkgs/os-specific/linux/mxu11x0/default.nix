@@ -51,7 +51,7 @@ in stdenv.mkDerivation rec {
     platforms = platforms.linux;
     # broken due to API change in write_room() > v5.14-rc1
     # https://github.com/torvalds/linux/commit/94cc7aeaf6c0cff0b8aeb7cb3579cee46b923560
-    broken = (kernel.kernelAtLeast "5.14")
-      && (lib.versionOlder kernel.version "6.0");
+    # broken = (kernel.kernelAtLeast "5.14")
+    #   && (lib.versionOlder kernel.version "6.0");
   };
 }
