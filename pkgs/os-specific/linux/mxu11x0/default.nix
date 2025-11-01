@@ -24,7 +24,7 @@ in stdenv.mkDerivation rec {
 
   version = mxu_version; # + "-${kernel.version}";
 
-  nativeBuildInputs = kernel.moduleBuildDependencies;
+  # nativeBuildInputs = kernel.moduleBuildDependencies;
 
   preBuild = ''
     sed -i -e 's|/lib/modules|${kernel.dev}/lib/modules|' driver/mxconf
