@@ -11,9 +11,20 @@ in
 stdenv.mkDerivation rec {
   pname = "mxu11x0";
 
-  src = if lib.versionAtLeast kernel.version "5.0" then srcs.mxu11x0_5.src else srcs.mxu11x0_4.src;
+  src =
+    if lib.versionAtLeast kernel.version "6.0" then
+      srcs.mxu11x0_6.src
+    else if lib.versionAtLeast kernel.version "5.0" then
+      srcs.mxu11x0_5.src
+    else
+      srcs.mxu11x0_4.src;
   mxu_version =
-    if lib.versionAtLeast kernel.version "5.0" then srcs.mxu11x0_5.version else srcs.mxu11x0_4.version;
+    if lib.versionAtLeast kernel.version "6.0" then
+      srcs.mxu11x0_6.version
+    else if lib.versionAtLeast kernel.version "5.0" then
+      srcs.mxu11x0_5.version
+    else
+      srcs.mxu11x0_4.version;
 
   version = mxu_version + "-${kernel.version}";
 
@@ -43,6 +54,6 @@ stdenv.mkDerivation rec {
     platforms = platforms.linux;
     # broken due to API change in write_room() > v5.14-rc1
     # https://github.com/torvalds/linux/commit/94cc7aeaf6c0cff0b8aeb7cb3579cee46b923560
-    broken = kernel.kernelAtLeast "5.14";
+    broken = (kernel.kernelAtLeast "5.14") && (lib.versionOlder kernel.version "6.0");
   };
 }
