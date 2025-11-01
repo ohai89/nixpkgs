@@ -22,7 +22,7 @@ in stdenv.mkDerivation rec {
   src = srcs.mxu11x0_6.src;
   mxu_version = srcs.mxu11x0_6.version;
 
-  version = mxu_version + "-${kernel.version}";
+  version = mxu_version; # + "-${kernel.version}";
 
   nativeBuildInputs = kernel.moduleBuildDependencies;
 
