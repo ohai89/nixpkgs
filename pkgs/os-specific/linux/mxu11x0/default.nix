@@ -31,8 +31,29 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = kernel.moduleBuildDependencies;
 
   preBuild = ''
-    sed -i -e 's|/lib/modules|${kernel.dev}/lib/modules|' driver/mxconf
-    sed -i -e 's|/lib/modules|${kernel.dev}/lib/modules|' driver/Makefile
+    echo "--- Running preBuild hook to patch C code ---"
+
+    # 1. Change function 'mxu1_break' return type from 'void' to 'int'.
+    sed -i 's/static void mxu1_break/static int mxu1_break/' driver/mxu11x0.c
+
+    # 2. Fix the 'return;' with no value.
+    #    The error log says this is at line 1747.
+    sed -i '1747s/return;/return 0;/' driver/mxu11x0.c
+
+    # 3. Add 'return 0;' at the end of the function.
+    #    The log says the error is at line 1760 (the closing brace).
+    #    We use 'i' (insert) to add 'return 0;' *before* line 1760.
+    sed -i '1760i return 0;' driver/mxu11x0.c
+
+    echo "--- Patching complete ---"
+  '';
+
+  buildPhase = ''
+    runHook preBuild
+
+    make -C "${kernel.dev}/lib/modules/${kernel.modDirVersion}/build" \
+        M="$(pwd)/driver" \
+        modules
   '';
 
   installPhase = ''
