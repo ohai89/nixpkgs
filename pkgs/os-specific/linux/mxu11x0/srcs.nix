@@ -1,5 +1,8 @@
 { fetchurl }:
-
+let
+  referer = "https://www.moxa.com/en/products/industrial-edge-connectivity/usb-to-serial-converters-usb-hubs/usb-to-serial-converters/uport-1000-series";
+  userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.0.0 Safari/537.36";
+in
 {
   mxu11x0_4 = {
     version = "4.1";
@@ -20,6 +23,12 @@
     src = fetchurl {
       url = "https://www.moxa.com/getmedia/c7a1d4ee-ff6f-46fe-b707-e6e2c6fcc152/moxa-uport-1100-series-linux-kernel-6.x-driver-v6.0.tgz";
       sha256 = "sha256-Qby3U/bZzDXANlu6Dnu7Feersz4IaG2bMeY3SFggzvc=";
+      curlOptsList = [
+        "-e"
+        "${referer}"
+        "-A"
+        "${userAgent}"
+      ];
     };
   };
 }
