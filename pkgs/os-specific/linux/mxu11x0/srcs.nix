@@ -19,7 +19,7 @@
     version = "6.0";
     src = fetchurl {
       url = "https://www.moxa.com/getmedia/c7a1d4ee-ff6f-46fe-b707-e6e2c6fcc152/moxa-uport-1100-series-linux-kernel-6.x-driver-v6.0.tgz";
-      sha256 = "sha256-07jlk8fwddw3qngwxh3vszxmx8rxsrg4ddss6v331r2rhc66mj26";
+      sha256 = "sha256-Qby3U/bZzDXANlu6Dnu7Feersz4IaG2bMeY3SFggzvc=";
     };
   };
 }
